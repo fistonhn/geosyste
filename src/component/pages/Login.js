@@ -2,12 +2,14 @@ import React from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import logo from '../../assets/logo.png';
+import Link from '@mui/material/Link';
 
 
 function Login() {
   return (
     <div>
-        <img src={logo} style={{ padding: '1%'}} />
+        <img alt="logo" style={{ padding: '1%'}} src={logo}/>
+
         <div style={{ color: 'white', margin: '5%', textAlign: 'center', padding: '10%' }}> 
             <h4 style = {{ color: 'black', marginLeft: '-130px' }}>Face Mapping Report</h4>
             <div style = {{display: 'block', width: '30%', marginLeft: 'auto', marginRight: 'auto' }}>
@@ -28,7 +30,9 @@ function Login() {
                     />
                 </div>
             </div>
-            <Button style={{ backgroundColor: 'black', marginTop: '-10px', width: '100px', fontSize: '13px', marginLeft: '-50px' }} size="small" variant="contained">Login</Button>
+            <Link href="/post">
+              <Button style={{ backgroundColor: 'black', marginTop: '-10px', width: '100px', fontSize: '13px', marginLeft: '-50px' }} size="small" variant="contained">Login</Button>
+            </Link>
         </div>
     </div>
   );

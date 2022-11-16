@@ -17,7 +17,7 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import TableHead from '@mui/material/TableHead';
 import logo from '../../assets/logo.png';
-import Link from '@material-ui/core/Link';
+import Link from '@mui/material/Link';
 
 function TablePaginationActions(props) {
   const theme = useTheme();
