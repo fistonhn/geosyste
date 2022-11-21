@@ -98,13 +98,10 @@ export default function CustomPaginationActionsTable() {
 
   console.log('post', post)
 
-
-
   useEffect(() => {
       axios.get('https://geosystem.herokuapp.com/api/getAllPosts', config).then((res)=>{
         setPosts(res.data.data);
       })
-
   }, []);
 
   const handleLogout = (event) => {
@@ -144,12 +141,22 @@ export default function CustomPaginationActionsTable() {
 
     const page = document.getElementById('my-page')
     html2canvas(page).then((canvas)=>{
-      const imgData = canvas.toDataURL("image/png")
 
-      const pdf = new jsPDF("p", "pt", "a4")
+      const pdf = new jsPDF()
 
-      pdf.addImage(imgData, "JPEG", 10, 50)
-      pdf.save('FACE-MAPPING-REPORT.pdf')
+      pdf.html(page, {
+        callback: function(doc) {
+            // Save the PDF
+            doc.save('FACE-MAPPING-REPORT.pdf');
+        },
+        margin: [10, 10, 10, 10],
+        autoPaging: 'text',
+        x: 0,
+        y: 0,
+        width: 190, //target width in the PDF document
+        windowWidth: 675 //window width in CSS pixels
+    });
+
     })
   }
 
@@ -218,58 +225,256 @@ export default function CustomPaginationActionsTable() {
           </Table>
           </TableContainer>
       </div>
+      <div style={{ display: 'nones', padding: '0% 25%'}}>
+        <div id="my-page" style={{padding: '1%', fontSize: '12px'}}>
+            <div style={{display: 'grid', gridTemplateColumns: 'auto auto auto auto'}}>
+              <div style={{ borderRight: '1px solid #CECECE', borderTop: '1px solid #CECECE', borderLeft: '1px solid #CECECE', padding: '10px', fontSize: '30px'}}>
+                  <h4 style = {{ color: 'black', fontSize: '15px' }}>Face Mapping Report</h4>
+                  <div style={{ fontSize: '11px', marginTop: '1px' }}>{post?.date}</div>
+              </div>
+              <div style={{ borderRight: '1px solid #CECECE', borderTop: '1px solid #CECECE', padding: '10px', fontSize: '30px'}}>
+                  <div style = {{ color: 'black', fontSize: '13px' }}>LOCATION</div>
+                  <h4 style={{ fontSize: '11px', marginTop: '1px' }}>{post?.advanceLocationFrom}</h4>
+                  <h4 style={{ fontSize: '11px', marginTop: '1px' }}>{post?.advanceLocationTo}</h4>
 
-      <div id="my-page">
-          <div style={{ border: '2px solid black', display: 'flex' }}>
-                <div style={{margin: '8px', borderRight: '1px solid black', paddingRight: '5px', width: '25%'}}>
-                    <h4 style = {{ color: 'black' }}>Face Mapping Report</h4>
-                      <div>{post?.date}</div>
-                </div>
-                <div style={{margin: '8px', borderRight: '1px solid black', paddingRight: '5px', width: '25%'}}>
-                    <div style = {{ color: 'black' }}>LOCATION</div>
-                      <h4>{post?.advanceLocationFrom}</h4>
-                      <h4>{post?.advanceLocationTo}</h4>
+                  <div style = {{ color: 'black', fontSize: '13px' }}>Excavation Section</div>
+                  <h4 style={{ fontSize: '11px', marginTop: '1px' }}>{post?.excavationSection}</h4>
 
-                </div>
-                <div style={{margin: '8px', borderRight: '1px solid black', paddingRight: '5px', width: '15%'}}>
-                    <div style = {{ color: 'black' }}>DEPTH OF COVER</div>
-                    <div> {post?.depthCover}</div>
+                  <div style = {{ color: 'black', fontSize: '13px' }}>Excavation Method</div>
+                  <h4 style={{ fontSize: '11px', marginTop: '1px' }}>{post?.excavationMethod}</h4>
 
-                    <div style = {{ color: 'black' }}>DRIVE DIRECTION</div>
-                    <div> {post?.driveDirection}</div>
-                </div>
-                <div style={{margin: '8px', borderRight: '1px solid black', paddingRight: '5px', width: '15%'}}>
-                    <div style = {{ color: 'black' }}>EXCAVATED</div>
-                    <h4>{post?.excavated}</h4>
+                  <div style = {{ color: 'black', fontSize: '13px' }}>RESS <span style={{marginLeft: '5px'}}> No.</span></div>
+                  <h4 style={{ fontSize: '11px', marginTop: '1px' }}>{post?.ressNo}</h4>
+              </div>
+              <div style={{ borderRight: '1px solid #CECECE', borderTop: '1px solid #CECECE', padding: '10px', fontSize: '30px'}}>
+                  <div style = {{ color: 'black', fontSize: '13px' }}>DEPTH OF COVER</div>
+                  <h4 style={{ fontSize: '11px', marginTop: '1px' }}> {post?.depthCover}</h4>
 
-                    <div style = {{ color: 'black' }}>OVERBREAK</div>
-                    <h4>{post?.overbreak}</h4>
+                  <div style = {{ color: 'black', fontSize: '13px' }}>DRIVE DIRECTION</div>
+                  <h4 style={{ fontSize: '11px', marginTop: '1px' }}> {post?.driveDirection}</h4>
+              </div>
+              <div style={{ width: '97%', borderRight: '1px solid #CECECE', borderTop: '1px solid #CECECE', padding: '10px', fontSize: '30px'}}>
+                  <h4 style = {{ color: 'black', fontSize: '13px', textAlign: 'center' }}>NEOM, LOT 2 & 3</h4>
+                  <img alt="logo" style={{ padding: '1%', display: 'block', marginLeft: 'auto', marginRight: 'auto', width: '50%' }} width="80" height="80" src={pdfLogo}/>
+              </div>
+            </div>
+            <div style={{display: 'grid', gridTemplateColumns: 'auto auto auto'}}>
+              <div style={{ borderRight: '1px solid #CECECE', borderTop: '1px solid #CECECE', borderLeft: '1px solid #CECECE', padding: '10px', fontSize: '30px'}}>
+                  <h4 style = {{ color: 'black', fontSize: '15px' }}>Q INDEX</h4>
+                  <div style={{ fontSize: '11px', marginTop: '1px' }}>{post?.qIndex}{' '}{post?.massQuality}</div>
 
-                    <div style = {{ color: 'black' }}>UNDERBREAK</div>
-                    <h4>{post?.underbreak}</h4>
+                  <h4 style = {{ color: 'black', fontSize: '15px' }}>SUPPORTING</h4>
+                  <div style={{ fontSize: '11px', marginTop: '1px' }}>{post?.supporting}</div>
+              </div>
+              <div style={{ padding: '10px', fontSize: '30px', borderTop: '1px solid #CECECE'}}>
+                  <img alt="sketch" width="220" height="150" src={post?.facemappingSketchImg} style={{ padding: '1%'}} />
+              </div>
+              <div style={{width: '98%',  borderRight: '1px solid #CECECE', borderTop: '1px solid #CECECE', borderLeft: '1px solid #CECECE', padding: '10px', fontSize: '30px'}}>
+                  <h4 style = {{ color: 'black', fontSize: '15px' }}>NOTES</h4>
+                  <h4 style={{ fontSize: '11px', marginTop: '1px' }}> {post?.notes}</h4>
+              </div>
+            </div>
+            <div style={{display: 'grid', gridTemplateColumns: 'auto auto auto'}}>
+              <div style={{ borderTop: '1px solid #CECECE',borderRight: '1px solid #CECECE',borderLeft: '1px solid #CECECE', padding: '10px', fontSize: '30px'}}>
+              <h4 style = {{ color: 'black', fontSize: '15px' }}>JOINTS</h4>
+                  <table sx={{ minWidth: 500 }}>
+                          <tr style = {{ borderBottom: '1px solid #ddd' }} >
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px', whiteSpace: 'nowrap' }}>Set no.</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }} >Type</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }} >Dip</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }} >Dip direction</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }} >Roughness</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }} >Infilling</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }} >Weathering</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }} >Spacing</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }} >Aperture</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }} >Persistence</td>
+                          </tr>
+                          <tr style = {{ borderBottom: '1px solid #ddd' }} key={post?.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.setNo1}</td>
+                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.type1}</td>
+                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dip1}</td>
+                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dipDirection1}</td>
+                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.roughness1}</td>
+                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.infilling1}</td>
+                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.weathering1}</td>
+                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.spacing1}</td>
+                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.aperture1}</td>
+                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.persistence1}</td>
+                          </tr>
+                          <tr style = {{ borderBottom: '1px solid #ddd' }} key={post?.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.setNo2}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.type2}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dip2}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dipDirection2}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.roughness2}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.infilling2}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.weathering2}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.spacing2}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.aperture2}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.persistence2}</td>
+                          </tr>
+                          <tr style = {{ borderBottom: '1px solid #ddd' }} key={post?.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.setNo3}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.type3}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dip3}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dipDirection3}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.roughness3}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.infilling3}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.weathering3}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.spacing3}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.aperture3}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.persistence3}</td>
+                          </tr>
+                          <tr style = {{ borderBottom: '1px solid #ddd' }} key={post?.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.setNo4}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.type4}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dip4}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dipDirection4}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.roughness4}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.infilling4}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.weathering4}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.spacing4}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.aperture4}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.persistence4}</td>
+                          </tr>
+                          <tr style = {{ borderBottom: '1px solid #ddd' }} key={post?.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.setNo5}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.type5}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dip5}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dipDirection5}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.roughness5}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.infilling5}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.weathering5}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.spacing5}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.aperture5}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.persistence5}</td>
+                          </tr>
+                          <tr key={post?.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.setNo6}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.type6}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dip6}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dipDirection6}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.roughness6}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.infilling6}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.weathering6}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.spacing6}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.aperture6}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.persistence6}</td>
+                          </tr>
+                  </table>
+              </div>
+              <div style={{ borderRight: '1px solid #CECECE', borderTop: '1px solid #CECECE', padding: '10px', fontSize: '30px'}}>
+                  <h4 style = {{ color: 'black', fontSize: '13px' }}>Q SYSTEM PARAMETERS</h4>
+                  <table>                     
+                          <tr style = {{ borderBottom: '1px solid #ddd' }}>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>RQD</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.rqd}</td>
+                          </tr>
+                          <tr style = {{ borderBottom: '1px solid #ddd' }}>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>Jn</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.jn}</td>
+                          </tr>
+                          <tr style = {{ borderBottom: '1px solid #ddd' }}>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>Jr</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.jr}</td>
+                          </tr>
+                          <tr style = {{ borderBottom: '1px solid #ddd' }}>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>Ja</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.ja} <span style={{color: '#757575'}}>deg</span></td>
+                          </tr>
+                          <tr style = {{ borderBottom: '1px solid #ddd' }}>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>Jw</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.jw} <span style={{color: '#757575'}}>kg/cm2</span></td>
+                          </tr>
+                          <tr >
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>SRF</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.srf}</td>
+                          </tr>
+                      
+                  </table>
+              </div>
+            </div>
+            <div style={{ border: '1px solid #CECECE', width: '102%', }}>
+                <h4 style = {{ color: 'black', marginLeft: '10px' }}>LITHOLOGY DESCRIPTION</h4>
+                <div style={{ display: 'flex' }}>
+                    <div style={{margin: '8px', width: '25%'}}>
+                          <div style = {{ color: 'black', fontSize: '15px' }}>Strenght</div>
+                          <div>{post?.strength}</div>
+                          <div style = {{ color: 'black', fontSize: '15px', marginTop: '15px' }}>Brightness</div>
+                          <div>{post?.brightness}</div>
+                          <div style = {{ color: 'black', fontSize: '15px', marginTop: '15px' }}>Tincture</div>
+                          <div>{post?.tincture}</div>
+                    </div>
+                    <div style={{margin: '8px', width: '25%'}}>
+                          <div style = {{ color: 'black', fontSize: '15px' }}>Colour</div>
+                          <div>{post?.colour}</div>
+                          <div style = {{ color: 'black', fontSize: '15px', marginTop: '15px' }}>Texture</div>
+                          <div>{post?.brightness}</div>
+                          <div style = {{ color: 'black', fontSize: '15px', marginTop: '15px' }}>Weathering</div>
+                          <div>{post?.tincture}</div>
+                    </div>
+                    <div style={{margin: '8px', width: '25%'}}>
+                          <div style = {{ color: 'black', fontSize: '15px' }}>Grain Size</div>
+                          <div>{post?.grainSize}</div>
+                          <div style = {{ color: 'black', fontSize: '15px', marginTop: '15px' }}>Igneous Rock</div>
+                          <div>{post?.igneousRock}</div>
+                          <div style = {{ color: 'black', fontSize: '15px', marginTop: '15px' }}>Other Rock Type</div>
+                          <div>{post?.otherRockType}</div>
+                    </div>
+                    <div style={{margin: '8px', width: '25%'}}>
+                        <div style = {{ color: 'black', fontSize: '15px' }}>Additional Description</div>
+                        <div>{post?.additionalDescription}</div>
+                    </div>
                 </div>
-                <div style={{margin: '8px', paddingRight: '5px', width: '20%'}}>
-                    <h4 style = {{ color: 'black' }}>NEOM, LOT 2 & 3</h4>
-                    <img alt="logo" style={{ padding: '1%'}} src={pdfLogo}/>
-                </div>
-          </div>
-          <div style={{ border: '2px solid black', display: 'flex' }}>
-                <div style={{margin: '8px', borderRight: '1px solid black', paddingRight: '5px', width: '30%'}}>
-                    <h4 style = {{ color: 'black' }}>Q INDEX</h4>
-                    <div>{post?.qIndex}</div>
-
-                    <h4 style = {{ color: 'black' }}>SUPPORTING</h4>
-                    <div>{post?.massQuality}</div>
-                </div>
-                <div style={{margin: '8px', paddingRight: '5px', width: '40%', borderRight: '1px solid black'}}>
-                    <img alt="sketch" src={post?.imageSketch} style={{ padding: '1%'}} />
-                </div>
-                <div style={{margin: '8px', paddingRight: '5px', width: '30%'}}>
-                  <h3 style = {{ color: 'black' }}>NOTES</h3>
-                <div>{post?.notes}</div>
-          </div>
-          </div>
-
+            </div>
+            <div style={{ border: '1px solid #CECECE', display: 'flex', marginTop: '150px' }}>
+                  <div style={{margin: '8px', paddingRight: '5px', width: '33%'}}>
+                      <img width="190" height="120" alt="sketch" src={post?.photos} style={{ padding: '1%'}} />
+                  </div>
+                  <div style={{margin: '8px', paddingRight: '5px', width: '33%'}}>
+                      <img width="190" height="120" alt="sketch" src={post?.photos} style={{ padding: '1%'}} />
+                  </div>
+                  <div style={{margin: '8px', paddingRight: '5px', width: '33%'}}>
+                      <img width="190" height="120" alt="sketch" src={post?.photos} style={{ padding: '1%'}} />
+                  </div>
+            </div>
+            <div style={{ display: 'flex', marginTop: '10px' }}>
+                  <div style={{margin: '8px', paddingRight: '5px', width: '33%', border: '1px solid #CECECE'}}>
+                      <div style={{ borderBottom: '1px solid #CECECE'}}>
+                        <h5 style = {{ margin: '10px', color: 'black', width: '110%' }}>LOGGED AND PREPARED BY FCS-JV</h5>
+                      </div>
+                      <div style={{ borderBottom: '1px solid #CECECE'}}>
+                        <div style = {{ margin: '10px', color: 'black' }}>Position</div>
+                      </div>
+                      <div style={{ paddingBottom: '100px'}}>
+                        <div style = {{ margin: '10px', color: 'black' }}>Signature</div>
+                      </div>
+                  </div>
+                  <div style={{margin: '8px', paddingRight: '5px', width: '33%', border: '1px solid #CECECE'}}>
+                      <div style={{ borderBottom: '1px solid #CECECE'}}>
+                        <h5 style = {{ margin: '10px', color: 'black' }}>REVIEWED BY EPM</h5>
+                      </div>
+                      <div style={{ borderBottom: '1px solid #CECECE'}}>
+                        <div style = {{ margin: '10px', color: 'black' }}>Position</div>
+                      </div>
+                      <div style={{ paddingBottom: '100px'}}>
+                        <div style = {{ margin: '10px', color: 'black' }}>Signature</div>
+                      </div>
+                  </div>
+                  <div style={{margin: '8px', paddingRight: '5px', width: '34%', border: '1px solid #CECECE'}}>
+                      <div style={{ borderBottom: '1px solid #CECECE'}}>
+                        <h5 style = {{ margin: '10px', color: 'black' }}>APPROUVED BY BEC</h5>
+                      </div>
+                      <div style={{ borderBottom: '1px solid #CECECE'}}>
+                        <div style = {{ margin: '10px', color: 'black', fontSize: '11px' }}>Position</div>
+                      </div>
+                      <div style={{ paddingBottom: '100px'}}>
+                        <div style = {{ margin: '10px', color: 'black', fontSize: '11px' }}>Signature</div>
+                      </div>
+                  </div>
+            </div>
+        </div>
       </div>
     </>
   );

@@ -30,6 +30,8 @@ const Post = () => {
     const [qIndex, setQindex] = useState(null)
     const [massQuality, setMassQuality] = useState(null)
 
+    const [supporting, setSupporting] = React.useState(' ');
+
     useEffect(() => {
         const timer = setTimeout(() => {
             setResError(null)
@@ -251,6 +253,7 @@ const Post = () => {
         allData.append('ja', qData.ja);
         allData.append('jw', qData.jw);
         allData.append('srf', qData.srf);
+        allData.append('supporting', supporting);
 
         const createPost = await axios.post('https://geosystem.herokuapp.com/api/createPost', allData, config)
         console.log('createPost', createPost);
@@ -275,6 +278,12 @@ const Post = () => {
 
         
     }
+
+    const handleSupporting = (event) => {
+        setSupporting(event.target.value);
+
+        console.log('supporting', supporting)
+      };
   return (
     <>
         <div style = {{backgroundColor: '#F2F2F2', display: 'block', color: 'black', padding: '2%', cursor: 'context-menu' }}>
@@ -521,83 +530,98 @@ const Post = () => {
 
             <div style={{ borderBottom: '2px solid black' }}>
                 <h2 style = {{ color: 'black' }}>Q SYSTEM</h2>
-                <div style = {{display: 'flex', width: '50%', color: 'black' }}>
-                    <div>
-                        <h6 style = {{ marginBottom: '6px', fontSize: '13px' }}>RQD</h6>
-                        <TextField
-                            id="demo-helper-text-aligned"
-                            label="Type"
-                            size="small"
-                            name="rqd"
-                            value={qData?.rqd}
-                            onChange={handleChangeQ}
-                        />
-                    </div>
-                    <div style={{ marginLeft: '3%' }}>
-                        <h6 style = {{ marginBottom: '6px', color: 'black', fontSize: '13px' }}>Jn</h6>
-                        <TextField
-                            id="demo-helper-text-aligned"
-                            label="Type"
-                            size="small"
-                            name="jn"
-                            value={qData?.jn}
-                            onChange={handleChangeQ}
-                        />
-                    </div>
-                    <div style={{ marginLeft: '3%' }}>
-                        <h6 style = {{ marginBottom: '6px', color: 'black', fontSize: '13px' }}>Jr</h6>
-                        <TextField
-                            id="demo-helper-text-aligned"
-                            label="Type"
-                            size="small"
-                            name="jr"
-                            value={qData?.jr}
-                            onChange={handleChangeQ}
-                        />
-                    </div>
-                    <div style={{ marginLeft: '3%' }}>
-                        <h6 style = {{ marginBottom: '6px', color: 'black', fontSize: '13px' }}>Ja</h6>
-                        <TextField
-                            id="demo-helper-text-aligned"
-                            label="Type"
-                            size="small"
-                            name="ja"
-                            value={qData?.ja}
-                            onChange={handleChangeQ}
-                        />
-                    </div>
+                <div style = {{ display: 'flex' }}>
+                    <div style = {{color: 'black', with: '60px'}} >
+                        <div style = {{display: 'flex', width: '50%', color: 'black' }}>
+                            <div>
+                                <h6 style = {{ marginBottom: '6px', fontSize: '13px' }}>RQD</h6>
+                                <TextField
+                                    id="demo-helper-text-aligned"
+                                    label="Type"
+                                    size="small"
+                                    name="rqd"
+                                    value={qData?.rqd}
+                                    onChange={handleChangeQ}
+                                />
+                            </div>
+                            <div style={{ marginLeft: '3%' }}>
+                                <h6 style = {{ marginBottom: '6px', color: 'black', fontSize: '13px' }}>Jn</h6>
+                                <TextField
+                                    id="demo-helper-text-aligned"
+                                    label="Type"
+                                    size="small"
+                                    name="jn"
+                                    value={qData?.jn}
+                                    onChange={handleChangeQ}
+                                />
+                            </div>
+                            <div style={{ marginLeft: '3%' }}>
+                                <h6 style = {{ marginBottom: '6px', color: 'black', fontSize: '13px' }}>Jr</h6>
+                                <TextField
+                                    id="demo-helper-text-aligned"
+                                    label="Type"
+                                    size="small"
+                                    name="jr"
+                                    value={qData?.jr}
+                                    onChange={handleChangeQ}
+                                />
+                            </div>
+                            <div style={{ marginLeft: '3%' }}>
+                                <h6 style = {{ marginBottom: '6px', color: 'black', fontSize: '13px' }}>Ja</h6>
+                                <TextField
+                                    id="demo-helper-text-aligned"
+                                    label="Type"
+                                    size="small"
+                                    name="ja"
+                                    value={qData?.ja}
+                                    onChange={handleChangeQ}
+                                />
+                            </div>
 
-                    <div style={{ marginLeft: '3%' }}>
-                        <h6 style = {{ marginBottom: '6px', color: 'black', fontSize: '13px' }}>Jw</h6>
-                        <TextField
-                            id="demo-helper-text-aligned"
-                            label="Type"
-                            size="small"
-                            name="jw"
-                            value={qData?.jw}
-                            onChange={handleChangeQ}
-                        />
-                    </div>
-                    <div style={{ marginLeft: '3%' }}>
-                        <h6 style = {{ marginBottom: '6px', color: 'black', fontSize: '13px' }}>SRF</h6>
-                        <TextField
-                            id="demo-helper-text-aligned"
-                            label="Type"
-                            size="small"
-                            name="srf"
-                            value={qData?.srf}
-                            onChange={handleChangeQ}
-                        />
-                    </div>
-                </div>
+                            <div style={{ marginLeft: '3%' }}>
+                                <h6 style = {{ marginBottom: '6px', color: 'black', fontSize: '13px' }}>Jw</h6>
+                                <TextField
+                                    id="demo-helper-text-aligned"
+                                    label="Type"
+                                    size="small"
+                                    name="jw"
+                                    value={qData?.jw}
+                                    onChange={handleChangeQ}
+                                />
+                            </div>
+                            <div style={{ marginLeft: '3%' }}>
+                                <h6 style = {{ marginBottom: '6px', color: 'black', fontSize: '13px' }}>SRF</h6>
+                                <TextField
+                                    id="demo-helper-text-aligned"
+                                    label="Type"
+                                    size="small"
+                                    name="srf"
+                                    value={qData?.srf}
+                                    onChange={handleChangeQ}
+                                />
+                            </div>
+                        </div>
 
-                <div style = {{display: 'flex', color: 'black', marginTop: '20px', marginBottom: '3%' }}>
-                <Button onClick={handleCalculate} style={{ backgroundColor: 'black', marginRight: '20px' }} size="small" variant="contained">CALCULATE Q</Button>
-                {qIndex !== null && 
-                    <div style = {{ backgroundColor: '#F1F1F1', padding: '10px' }}>
-                    <span style={{fontWeight: 'bold', padding: '20px'}}>Q INDEX= {qIndex}</span> | 
-                    <span style={{ padding: '20px'}}>{massQuality}</span>
-                </div>}
+                        <div style = {{display: 'flex', color: 'black', marginTop: '20px', marginBottom: '3%' }}>
+                        <Button onClick={handleCalculate} style={{ backgroundColor: 'black', marginRight: '20px' }} size="small" variant="contained">CALCULATE Q</Button>
+                        {qIndex !== null && 
+                            <div style = {{ backgroundColor: '#F1F1F1', padding: '10px' }}>
+                            <span style={{fontWeight: 'bold', padding: '20px'}}>Q INDEX= {qIndex}</span> | 
+                            <span style={{ padding: '20px'}}>{massQuality}</span>
+                        </div>}
+                        </div>
+                    </div>
+                    <div style = {{color: 'black', marginTop: '-70px', float: 'right'}}>
+                        <h4>SUPPORTING</h4>
+                        <div style={{marginBottom: '10px'}}>Support type</div>
+                        <select name="cars" id="cars" onChange={handleSupporting} style={{ padding: '10px' }}>
+                            <option style={{ padding: '10px' }} value="Select support type">Select support type</option>
+                            <option value="Support Type RT-1">Support Type RT-1</option>
+                            <option value="Support Type RT-2B">Support Type RT-2B</option>
+                            <option value="Support Type RT-3B">Support Type RT-3B</option>
+                            <option value="Support Type RT-4B">Support Type RT-4B</option>
+                        </select>
+                    </div>
                 </div>
             </div>
 
