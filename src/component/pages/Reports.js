@@ -225,7 +225,7 @@ export default function CustomPaginationActionsTable() {
           </Table>
           </TableContainer>
       </div>
-      <div style={{ display: 'nones', padding: '0% 25%'}}>
+      <div style={{ display: 'none', padding: '0% 25%'}}>
         <div id="my-page" style={{padding: '1%', fontSize: '12px'}}>
             <div style={{display: 'grid', gridTemplateColumns: 'auto auto auto auto'}}>
               <div style={{ borderRight: '1px solid #CECECE', borderTop: '1px solid #CECECE', borderLeft: '1px solid #CECECE', padding: '10px', fontSize: '30px'}}>
