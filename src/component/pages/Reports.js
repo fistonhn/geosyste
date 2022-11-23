@@ -128,10 +128,9 @@ export default function CustomPaginationActionsTable() {
 
 
   const handleDownload = async(id) => {
-    const res = await axios.get(`https://geosystem.herokuapp.com/api/getOnePost/${id}`, config)
-    await setPost(res.data.data)
 
-    console.log('res', post);
+    const res = await axios.get(`https://geosystem.herokuapp.com/api/getOnePost/${id}`, config)
+    setPost(res.data.data)
 
     exportPdf()
 
@@ -149,12 +148,12 @@ export default function CustomPaginationActionsTable() {
             // Save the PDF
             doc.save('FACE-MAPPING-REPORT.pdf');
         },
-        margin: [10, 10, 10, 10],
+        margin: [5, 5, 5, 5],
         autoPaging: 'text',
         x: 0,
         y: 0,
-        width: 190, //target width in the PDF document
-        windowWidth: 675 //window width in CSS pixels
+        width: 190, 
+        windowWidth: 675 
     });
 
     })
@@ -162,9 +161,9 @@ export default function CustomPaginationActionsTable() {
 
   return (
     <>
-      <div style = {{backgroundColor: '#F2F2F2', display: 'block', color: 'black', padding: '2%', cursor: 'context-menu' }}>
+      <div style = {{backgroundColor: '#F2F2F2', display: 'block', color: '#333333', padding: '2%', cursor: 'context-menu' }}>
         <Link href="/"><img alt="logo" src={logo}/></Link>
-        <div style={{ fontSize: '15px', fontWeight: 'bold', float: 'right', display: 'flex' }}>
+        <div style={{ fontSize: '13px', fontWeight: 'bold', float: 'right', display: 'flex' }}>
         <Link href="/post"><div>POST</div></Link>
         <Link onClick={handleLogout} style={{marginRight: '30px', marginLeft: '20px'}}>LOGOUT</Link>
         </div>
@@ -189,10 +188,10 @@ export default function CustomPaginationActionsTable() {
                       key={post.name}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                   >
-                      <TableCell component="th" scope="row">{post.advanceName}</TableCell>
-                      <TableCell >{post.advanceLocationFrom} To {post.advanceLocationTo}</TableCell>
-                      <TableCell >{post.date}</TableCell>
-                      <TableCell onClick={()=>handleDownload(post.id)} value={post.id} style={{cursor: 'pointer'}} >{'download'}</TableCell>
+                      <TableCell component="th" scope="row">{post?.advanceName !== 'undefined' ? post?.advanceName : ''}</TableCell>
+                      <TableCell >{post.advanceLocationFrom !== 'undefined' ? post?.advanceLocationFrom : ''} To {post?.advanceLocationTo !== 'undefined' ? post?.advanceLocationTo : ''}</TableCell>
+                      <TableCell >{post.date !== 'undefined' ? post?.date : ''}</TableCell>
+                      <TableCell onClick={()=>handleDownload(post?.id)} value={post?.id} style={{cursor: 'pointer'}} >{'download'}</TableCell>
                   </TableRow>
               ))}
 
@@ -225,59 +224,62 @@ export default function CustomPaginationActionsTable() {
           </Table>
           </TableContainer>
       </div>
-      <div style={{ display: 'none', padding: '0% 25%'}}>
-        <div id="my-page" style={{padding: '1%', fontSize: '12px'}}>
-            <div style={{display: 'grid', gridTemplateColumns: 'auto auto auto auto'}}>
-              <div style={{ borderRight: '1px solid #CECECE', borderTop: '1px solid #CECECE', borderLeft: '1px solid #CECECE', padding: '10px', fontSize: '30px'}}>
-                  <h4 style = {{ color: 'black', fontSize: '15px' }}>Face Mapping Report</h4>
-                  <div style={{ fontSize: '11px', marginTop: '1px' }}>{post?.date}</div>
+      <div style={{ display: 'nonec', padding: '0% 25%'}}>
+        <div id="my-page" style={{ fontSize: '12px', minWidth: '705px', maxWidth: '705px', border: '1px solid #CECECE', overflow: 'hidden' }}>
+            <div style={{display: 'grid', gridTemplateColumns: 'auto auto auto auto', minWidth: '710px', maxWidth: '710px'}}>
+              <div style={{ borderRight: '1px solid #CECECE', padding: '10px', fontSize: '30px'}}>
+                  <h4 style = {{ color: '#333333', fontSize: '13px' }}>Face Mapping Report</h4>
+                  <div style={{ fontSize: '11px', marginTop: '1px' }}>{post?.date !== 'undefined' ? post?.date : ''}</div>
+
+                  <div style = {{ color: '#333333', fontSize: '13px', marginTop: '10px' }}>Excavation Method</div>
+                  <h4 style={{ fontSize: '11px', marginTop: '1px' }}>{post?.excavationMethod !== 'undefined' ? post?.excavationMethod : ''}</h4>
+
+                  <div style = {{ color: '#333333', fontSize: '13px' }}>RESS <span style={{marginLeft: '5px'}}> No.</span></div>
+                  <h4 style={{ fontSize: '11px', marginTop: '1px' }}>{post?.ressNo !== 'undefined' ? post?.ressNo : ''}</h4>
               </div>
-              <div style={{ borderRight: '1px solid #CECECE', borderTop: '1px solid #CECECE', padding: '10px', fontSize: '30px'}}>
-                  <div style = {{ color: 'black', fontSize: '13px' }}>LOCATION</div>
-                  <h4 style={{ fontSize: '11px', marginTop: '1px' }}>{post?.advanceLocationFrom}</h4>
-                  <h4 style={{ fontSize: '11px', marginTop: '1px' }}>{post?.advanceLocationTo}</h4>
+              <div style={{ borderRight: '1px solid #CECECE', padding: '10px', fontSize: '30px'}}>
+                  <div style = {{ color: '#333333', fontSize: '13px' }}>LOCATION</div>
+                  <h4 style={{ fontSize: '11px', marginTop: '1px' }}>{post?.tunnel !== 'undefined' ? post?.tunnel : ''}</h4>
+                  <h4 style={{ fontSize: '11px', marginTop: '1px' }}>{post?.advanceName !== 'undefined' ? post?.advanceName : ''}</h4>
 
-                  <div style = {{ color: 'black', fontSize: '13px' }}>Excavation Section</div>
-                  <h4 style={{ fontSize: '11px', marginTop: '1px' }}>{post?.excavationSection}</h4>
+                  <h4 style={{ fontSize: '11px', marginTop: '1px' }}>{post?.advanceLocationFrom !== 'undefined' ? post?.advanceLocationFrom : ''}</h4>
+                  <h4 style={{ fontSize: '11px', marginTop: '1px' }}>{post?.advanceLocationTo !== 'undefined' ? post?.advanceLocationTo : ''}</h4>
 
-                  <div style = {{ color: 'black', fontSize: '13px' }}>Excavation Method</div>
-                  <h4 style={{ fontSize: '11px', marginTop: '1px' }}>{post?.excavationMethod}</h4>
-
-                  <div style = {{ color: 'black', fontSize: '13px' }}>RESS <span style={{marginLeft: '5px'}}> No.</span></div>
-                  <h4 style={{ fontSize: '11px', marginTop: '1px' }}>{post?.ressNo}</h4>
+                  <div style = {{ color: '#333333', fontSize: '13px' }}>Excavation Section</div>
+                  <h4 style={{ fontSize: '11px', marginTop: '1px' }}>{post?.excavationSection !== 'undefined' ? post?.excavationSection : ''}</h4>
               </div>
-              <div style={{ borderRight: '1px solid #CECECE', borderTop: '1px solid #CECECE', padding: '10px', fontSize: '30px'}}>
-                  <div style = {{ color: 'black', fontSize: '13px' }}>DEPTH OF COVER</div>
-                  <h4 style={{ fontSize: '11px', marginTop: '1px' }}> {post?.depthCover}</h4>
+              <div style={{ borderRight: '1px solid #CECECE', padding: '10px', fontSize: '30px'}}>
+                  <div style = {{ color: '#333333', fontSize: '13px' }}>DEPTH <span>OF</span> COVER</div>
+                  <h4 style={{ fontSize: '11px', marginTop: '1px' }}> {post?.depthCover !== 'undefined' ? post?.depthCover : ''}</h4>
 
-                  <div style = {{ color: 'black', fontSize: '13px' }}>DRIVE DIRECTION</div>
-                  <h4 style={{ fontSize: '11px', marginTop: '1px' }}> {post?.driveDirection}</h4>
+                  <div style = {{ color: '#333333', fontSize: '13px' }}>DRIVE <span>DIRECTION</span> </div>
+                  <h4 style={{ fontSize: '11px', marginTop: '1px' }}> {post?.driveDirection !== 'undefined' ? post?.driveDirection : ''}</h4>
               </div>
-              <div style={{ width: '97%', borderRight: '1px solid #CECECE', borderTop: '1px solid #CECECE', padding: '10px', fontSize: '30px'}}>
-                  <h4 style = {{ color: 'black', fontSize: '13px', textAlign: 'center' }}>NEOM, LOT 2 & 3</h4>
+              <div style={{ width: '97%', padding: '10px', fontSize: '30px'}}>
+                  <h4 style = {{ color: '#333333', fontSize: '13px', textAlign: 'center' }}>NEOM, LOT 2 & 3</h4>
                   <img alt="logo" style={{ padding: '1%', display: 'block', marginLeft: 'auto', marginRight: 'auto', width: '50%' }} width="80" height="80" src={pdfLogo}/>
               </div>
             </div>
-            <div style={{display: 'grid', gridTemplateColumns: 'auto auto auto'}}>
-              <div style={{ borderRight: '1px solid #CECECE', borderTop: '1px solid #CECECE', borderLeft: '1px solid #CECECE', padding: '10px', fontSize: '30px'}}>
-                  <h4 style = {{ color: 'black', fontSize: '15px' }}>Q INDEX</h4>
-                  <div style={{ fontSize: '11px', marginTop: '1px' }}>{post?.qIndex}{' '}{post?.massQuality}</div>
+            <div style={{display: 'grid', gridTemplateColumns: 'auto auto auto', minWidth: '710px', maxWidth: '710px'}}>
+              <div style={{ borderTop: '1px solid #CECECE', borderRight: '1px solid #CECECE', padding: '10px', fontSize: '30px'}}>
+                  <h4 style = {{ color: '#333333', fontSize: '13px' }}>Q INDEX</h4>
+                  <div style={{ fontSize: '11px', marginTop: '1px' }}>{post?.qIndex !== 'undefined' ? post?.qIndex : ''}{' '}{post?.massQuality !== 'undefined' ? post?.massQuality : ''}</div>
 
-                  <h4 style = {{ color: 'black', fontSize: '15px' }}>SUPPORTING</h4>
-                  <div style={{ fontSize: '11px', marginTop: '1px' }}>{post?.supporting}</div>
+                  <h4 style = {{ color: '#333333', fontSize: '13px' }}>SUPPORTING</h4>
+                  <div style={{ fontSize: '11px', marginTop: '1px' }}>{post?.supporting !== 'undefined' ? post?.supporting : ''}</div>
               </div>
-              <div style={{ padding: '10px', fontSize: '30px', borderTop: '1px solid #CECECE'}}>
-                  <img alt="sketch" width="220" height="150" src={post?.facemappingSketchImg} style={{ padding: '1%'}} />
+              <div style={{ padding: '10px', fontSize: '30px', borderTop: '1px solid #CECECE', borderRight: '1px solid #CECECE'}}>
+                  <img alt="sketch" width="360" height="250" src={post?.facemappingSketchImg} style={{ padding: '1%'}} />
               </div>
-              <div style={{width: '98%',  borderRight: '1px solid #CECECE', borderTop: '1px solid #CECECE', borderLeft: '1px solid #CECECE', padding: '10px', fontSize: '30px'}}>
-                  <h4 style = {{ color: 'black', fontSize: '15px' }}>NOTES</h4>
-                  <h4 style={{ fontSize: '11px', marginTop: '1px' }}> {post?.notes}</h4>
+              <div style={{width: '98%', borderTop: '1px solid #CECECE', padding: '10px', fontSize: '30px'}}>
+                  <h4 style = {{ color: '#333333', fontSize: '13px' }}>NOTES</h4>
+                  <h4 style={{ fontSize: '11px', marginTop: '1px' }}> {post?.notes !== 'undefined' ? post?.notes : ''}</h4>
               </div>
             </div>
-            <div style={{display: 'grid', gridTemplateColumns: 'auto auto auto'}}>
-              <div style={{ borderTop: '1px solid #CECECE',borderRight: '1px solid #CECECE',borderLeft: '1px solid #CECECE', padding: '10px', fontSize: '30px'}}>
-              <h4 style = {{ color: 'black', fontSize: '15px' }}>JOINTS</h4>
-                  <table sx={{ minWidth: 500 }}>
+            <div style={{display: 'grid', borderTop: '1px solid #CECECE', gridTemplateColumns: 'auto auto auto', minWidth: '710px', maxWidth: '710px'}}>
+              <div style={{ borderRight: '1px solid #CECECE',  padding: '10px', fontSize: '30px', minWidth: '550px', maxWidth: '550px', overflow: 'hidden'}}>
+                  <h4 style = {{ color: '#333333', fontSize: '13px' }}>JOINTS</h4>
+                  <table>
                           <tr style = {{ borderBottom: '1px solid #ddd' }} >
                               <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px', whiteSpace: 'nowrap' }}>Set no.</td>
                               <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }} >Type</td>
@@ -291,144 +293,147 @@ export default function CustomPaginationActionsTable() {
                               <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }} >Persistence</td>
                           </tr>
                           <tr style = {{ borderBottom: '1px solid #ddd' }} key={post?.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.setNo1}</td>
-                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.type1}</td>
-                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dip1}</td>
-                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dipDirection1}</td>
-                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.roughness1}</td>
-                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.infilling1}</td>
-                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.weathering1}</td>
-                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.spacing1}</td>
-                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.aperture1}</td>
-                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.persistence1}</td>
+                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.setNo1 !== 'undefined' ? post?.setNo1 : ''}</td>
+                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.type1 !== 'undefined' ? post?.type1 : ''}</td>
+                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dip1 !== 'undefined' ? post?.dip1 : ''}</td>
+                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dipDirection1 !== 'undefined' ? post?.dipDirection1 : ''}</td>
+                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.roughness1 !== 'undefined' ? post?.roughness1 : ''}</td>
+                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.infilling1 !== 'undefined' ? post?.infilling1 : ''}</td>
+                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.weathering1 !== 'undefined' ? post?.weathering1 : ''}</td>
+                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.spacing1 !== 'undefined' ? post?.spacing1 : ''}</td>
+                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.aperture1 !== 'undefined' ? post?.aperture1 : ''}</td>
+                              <td  style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.persistence1 !== 'undefined' ? post?.persistence1 : ''}</td>
                           </tr>
                           <tr style = {{ borderBottom: '1px solid #ddd' }} key={post?.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.setNo2}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.type2}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dip2}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dipDirection2}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.roughness2}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.infilling2}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.weathering2}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.spacing2}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.aperture2}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.persistence2}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.setNo2 !== 'undefined' ? post?.setNo2 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.type2 !== 'undefined' ? post?.type2 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dip2 !== 'undefined' ? post?.dip2 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dipDirection2 !== 'undefined' ? post?.dipDirection2 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.roughness2 !== 'undefined' ? post?.roughness2 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.infilling2 !== 'undefined' ? post?.infilling2 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.weathering2 !== 'undefined' ? post?.weathering2 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.spacing2 !== 'undefined' ? post?.spacing2 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.aperture2 !== 'undefined' ? post?.aperture2 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.persistence2 !== 'undefined' ? post?.persistence2 : ''}</td>
                           </tr>
                           <tr style = {{ borderBottom: '1px solid #ddd' }} key={post?.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.setNo3}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.type3}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dip3}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dipDirection3}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.roughness3}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.infilling3}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.weathering3}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.spacing3}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.aperture3}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.persistence3}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.setNo3 !== 'undefined' ? post?.setNo3 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.type3 !== 'undefined' ? post?.type3 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dip3 !== 'undefined' ? post?.dip3 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dipDirection3 !== 'undefined' ? post?.dipDirection3 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.roughness3 !== 'undefined' ? post?.roughness3 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.infilling3 !== 'undefined' ? post?.infilling3 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.weathering3 !== 'undefined' ? post?.weathering3 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.spacing3 !== 'undefined' ? post?.spacing3 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.aperture3 !== 'undefined' ? post?.aperture3 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.persistence3 !== 'undefined' ? post?.persistence3 : ''}</td>
                           </tr>
                           <tr style = {{ borderBottom: '1px solid #ddd' }} key={post?.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.setNo4}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.type4}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dip4}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dipDirection4}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.roughness4}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.infilling4}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.weathering4}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.spacing4}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.aperture4}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.persistence4}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.setNo4 !== 'undefined' ? post?.setNo4 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.type4 !== 'undefined' ? post?.type4 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dip4 !== 'undefined' ? post?.dip4 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dipDirection4 !== 'undefined' ? post?.dipDirection4 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.roughness4 !== 'undefined' ? post?.roughness4 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.infilling4 !== 'undefined' ? post?.infilling4 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.weathering4 !== 'undefined' ? post?.weathering4 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.spacing4 !== 'undefined' ? post?.spacing4 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.aperture4 !== 'undefined' ? post?.aperture4 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.persistence4 !== 'undefined' ? post?.persistence4 : ''}</td>
                           </tr>
                           <tr style = {{ borderBottom: '1px solid #ddd' }} key={post?.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.setNo5}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.type5}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dip5}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dipDirection5}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.roughness5}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.infilling5}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.weathering5}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.spacing5}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.aperture5}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.persistence5}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.setNo5 !== 'undefined' ? post?.setNo5 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.type5 !== 'undefined' ? post?.type5 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dip5 !== 'undefined' ? post?.dip5 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dipDirection5 !== 'undefined' ? post?.dipDirection5 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.roughness5 !== 'undefined' ? post?.roughness5 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.infilling5 !== 'undefined' ? post?.infilling5 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.weathering5 !== 'undefined' ? post?.weathering5 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.spacing5 !== 'undefined' ? post?.spacing5 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.aperture5 !== 'undefined' ? post?.aperture5 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.persistence5 !== 'undefined' ? post?.persistence5 : ''}</td>
                           </tr>
                           <tr key={post?.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.setNo6}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.type6}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dip6}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dipDirection6}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.roughness6}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.infilling6}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.weathering6}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.spacing6}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.aperture6}</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.persistence6}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.setNo6 !== 'undefined' ? post?.setNo6 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.type6 !== 'undefined' ? post?.type6 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dip6 !== 'undefined' ? post?.dip6 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.dipDirection6 !== 'undefined' ? post?.dipDirection6 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.roughness6 !== 'undefined' ? post?.roughness6 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.infilling6 !== 'undefined' ? post?.infilling6 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.weathering6 !== 'undefined' ? post?.weathering6 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.spacing6 !== 'undefined' ? post?.spacing6 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.aperture6 !== 'undefined' ? post?.aperture6 : ''}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.persistence6 !== 'undefined' ? post?.persistence6 : ''}</td>
                           </tr>
                   </table>
               </div>
-              <div style={{ borderRight: '1px solid #CECECE', borderTop: '1px solid #CECECE', padding: '10px', fontSize: '30px'}}>
-                  <h4 style = {{ color: 'black', fontSize: '13px' }}>Q SYSTEM PARAMETERS</h4>
+              <div style={{ padding: '10px', fontSize: '30px', minWidth: '100px', maxWidth: '100px'}}>
+                  <h4 style = {{ color: '#333333', fontSize: '13px' }}>Q SYSTEM PARAMETERS</h4>
                   <table>                     
                           <tr style = {{ borderBottom: '1px solid #ddd' }}>
                               <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>RQD</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.rqd}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.rqd  !== 'undefined' ? post?.rqd : ''}</td>
                           </tr>
                           <tr style = {{ borderBottom: '1px solid #ddd' }}>
                               <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>Jn</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.jn}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.jn !== 'undefined' ? post?.jn : ''}</td>
                           </tr>
                           <tr style = {{ borderBottom: '1px solid #ddd' }}>
                               <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>Jr</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.jr}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.jr !== 'undefined' ? post?.jr : ''}</td>
                           </tr>
                           <tr style = {{ borderBottom: '1px solid #ddd' }}>
                               <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>Ja</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.ja} <span style={{color: '#757575'}}>deg</span></td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.ja !== 'undefined' ? post?.ja : ''} <span style={{color: '#757575'}}>deg</span></td>
                           </tr>
                           <tr style = {{ borderBottom: '1px solid #ddd' }}>
                               <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>Jw</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.jw} <span style={{color: '#757575'}}>kg/cm2</span></td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.jw !== 'undefined' ? post?.jw : ''} <span style={{color: '#757575'}}>kg/cm2</span></td>
                           </tr>
                           <tr >
                               <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>SRF</td>
-                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.srf}</td>
+                              <td style = {{ fontSize: '10px', textAlign: 'left', padding: '8px' }}>{post?.srf !== 'undefined' ? post?.srf : ''}</td>
                           </tr>
                       
                   </table>
               </div>
             </div>
-            <div style={{ border: '1px solid #CECECE', width: '102%', }}>
-                <h4 style = {{ color: 'black', marginLeft: '10px' }}>LITHOLOGY DESCRIPTION</h4>
+            <div style={{ borderBottom: '1px solid #CECECE', borderTop: '1px solid #CECECE', width: '102%', minWidth: '710px', maxWidth: '710px' }}>
+              <div style={{display: 'flex'}}>
+                <h4 style = {{ color: '#333333', marginLeft: '10px' }}>LITHOLOGY</h4>
+                <h4 style = {{ color: '#333333', marginLeft: '10px' }}>DESCRIPTION</h4>
+              </div>
                 <div style={{ display: 'flex' }}>
                     <div style={{margin: '8px', width: '25%'}}>
-                          <div style = {{ color: 'black', fontSize: '15px' }}>Strenght</div>
-                          <div>{post?.strength}</div>
-                          <div style = {{ color: 'black', fontSize: '15px', marginTop: '15px' }}>Brightness</div>
-                          <div>{post?.brightness}</div>
-                          <div style = {{ color: 'black', fontSize: '15px', marginTop: '15px' }}>Tincture</div>
-                          <div>{post?.tincture}</div>
+                          <div style = {{ color: '#333333', fontSize: '13px', fontWeight: 600 }}>Strenght</div>
+                          <div style={{fontSize: '10px'}}>{post?.strength !== 'undefined' ? post?.strength : ''}</div>
+                          <div style = {{ color: '#333333', fontSize: '13px', fontWeight: 600, marginTop: '13px' }}>Brightness</div>
+                          <div style={{fontSize: '10px'}}>{post?.brightness !== 'undefined' ? post?.brightness : ''}</div>
+                          <div style = {{ color: '#333333', fontSize: '13px', fontWeight: 600, marginTop: '13px' }}>Tincture</div>
+                          <div style={{fontSize: '10px'}}>{post?.tincture !== 'undefined' ? post?.tincture : ''}</div>
                     </div>
                     <div style={{margin: '8px', width: '25%'}}>
-                          <div style = {{ color: 'black', fontSize: '15px' }}>Colour</div>
-                          <div>{post?.colour}</div>
-                          <div style = {{ color: 'black', fontSize: '15px', marginTop: '15px' }}>Texture</div>
-                          <div>{post?.brightness}</div>
-                          <div style = {{ color: 'black', fontSize: '15px', marginTop: '15px' }}>Weathering</div>
-                          <div>{post?.tincture}</div>
+                          <div style = {{ color: '#333333', fontSize: '13px', fontWeight: 600 }}>Colour</div>
+                          <div style={{fontSize: '10px'}}>{post?.colour !== 'undefined' ? post?.colour : ''}</div>
+                          <div style = {{ color: '#333333', fontSize: '13px', fontWeight: 600, marginTop: '13px' }}>Texture</div>
+                          <div style={{fontSize: '10px'}}>{post?.texture !== 'undefined' ? post?.texture : ''}</div>
+                          <div style = {{ color: '#333333', fontSize: '13px', fontWeight: 600, marginTop: '13px' }}>Weathering</div>
+                          <div style={{fontSize: '10px'}}>{post?.weather !== 'undefined' ? post?.weather : ''}</div>
                     </div>
                     <div style={{margin: '8px', width: '25%'}}>
-                          <div style = {{ color: 'black', fontSize: '15px' }}>Grain Size</div>
-                          <div>{post?.grainSize}</div>
-                          <div style = {{ color: 'black', fontSize: '15px', marginTop: '15px' }}>Igneous Rock</div>
-                          <div>{post?.igneousRock}</div>
-                          <div style = {{ color: 'black', fontSize: '15px', marginTop: '15px' }}>Other Rock Type</div>
-                          <div>{post?.otherRockType}</div>
+                          <div style = {{ color: '#333333', fontSize: '13px', fontWeight: 600 }}>Grain Size</div>
+                          <div style={{fontSize: '10px'}}>{post?.grainSize !== 'undefined' ? post?.grainSize : ''}</div>
+                          <div style = {{ color: '#333333', fontSize: '13px', fontWeight: 600, marginTop: '13px' }}>Igneous Rock</div>
+                          <div style={{fontSize: '10px'}}>{post?.igneousRock !== 'undefined' ? post?.igneousRock : ''}</div>
+                          <div style = {{ color: '#333333', fontSize: '13px', fontWeight: 600, marginTop: '13px' }}>Other Rock Type</div>
+                          <div style={{fontSize: '10px'}}>{post?.otherRockType !== 'undefined' ? post?.otherRockType : ''}</div>
                     </div>
                     <div style={{margin: '8px', width: '25%'}}>
-                        <div style = {{ color: 'black', fontSize: '15px' }}>Additional Description</div>
-                        <div>{post?.additionalDescription}</div>
+                        <div style = {{ color: '#333333', fontSize: '13px', fontWeight: 600, whiteSpace: 'nowrap', marginRight: '1000px' }}>Additional Description</div>
+                        <div style={{fontSize: '10px'}}>{post?.additionalDescription !== 'undefined' ? post?.additionalDescription : ''}</div>
                     </div>
                 </div>
             </div>
-            <div style={{ border: '1px solid #CECECE', display: 'flex', marginTop: '150px' }}>
+            <div style={{ borderTop: '1px solid #CECECE', borderBottom: '1px solid #CECECE', display: 'flex', marginTop: '150px', minWidth: '710px', maxWidth: '710px' }}>
                   <div style={{margin: '8px', paddingRight: '5px', width: '33%'}}>
                       <img width="190" height="120" alt="sketch" src={post?.photos} style={{ padding: '1%'}} />
                   </div>
@@ -439,38 +444,38 @@ export default function CustomPaginationActionsTable() {
                       <img width="190" height="120" alt="sketch" src={post?.photos} style={{ padding: '1%'}} />
                   </div>
             </div>
-            <div style={{ display: 'flex', marginTop: '10px' }}>
+            <div style={{ display: 'flex', marginTop: '10px', minWidth: '710px', maxWidth: '710px' }}>
                   <div style={{margin: '8px', paddingRight: '5px', width: '33%', border: '1px solid #CECECE'}}>
                       <div style={{ borderBottom: '1px solid #CECECE'}}>
-                        <h5 style = {{ margin: '10px', color: 'black', width: '110%' }}>LOGGED AND PREPARED BY FCS-JV</h5>
+                        <h5 style = {{ margin: '10px', color: '#333333', width: '110%' }}>LOGGED AND PREPARED BY FCS-JV</h5>
                       </div>
                       <div style={{ borderBottom: '1px solid #CECECE'}}>
-                        <div style = {{ margin: '10px', color: 'black' }}>Position</div>
+                        <div style = {{ margin: '10px', color: '#333333' }}>Position</div>
                       </div>
                       <div style={{ paddingBottom: '100px'}}>
-                        <div style = {{ margin: '10px', color: 'black' }}>Signature</div>
+                        <div style = {{ margin: '10px', color: '#333333' }}>Signature</div>
                       </div>
                   </div>
                   <div style={{margin: '8px', paddingRight: '5px', width: '33%', border: '1px solid #CECECE'}}>
                       <div style={{ borderBottom: '1px solid #CECECE'}}>
-                        <h5 style = {{ margin: '10px', color: 'black' }}>REVIEWED BY EPM</h5>
+                        <h5 style = {{ margin: '10px', color: '#333333' }}>REVIEWED BY EPM</h5>
                       </div>
                       <div style={{ borderBottom: '1px solid #CECECE'}}>
-                        <div style = {{ margin: '10px', color: 'black' }}>Position</div>
+                        <div style = {{ margin: '10px', color: '#333333' }}>Position</div>
                       </div>
                       <div style={{ paddingBottom: '100px'}}>
-                        <div style = {{ margin: '10px', color: 'black' }}>Signature</div>
+                        <div style = {{ margin: '10px', color: '#333333' }}>Signature</div>
                       </div>
                   </div>
                   <div style={{margin: '8px', paddingRight: '5px', width: '34%', border: '1px solid #CECECE'}}>
                       <div style={{ borderBottom: '1px solid #CECECE'}}>
-                        <h5 style = {{ margin: '10px', color: 'black' }}>APPROUVED BY BEC</h5>
+                        <h5 style = {{ margin: '10px', color: '#333333' }}>APPROUVED BY BEC</h5>
                       </div>
                       <div style={{ borderBottom: '1px solid #CECECE'}}>
-                        <div style = {{ margin: '10px', color: 'black', fontSize: '11px' }}>Position</div>
+                        <div style = {{ margin: '10px', color: '#333333', fontSize: '11px' }}>Position</div>
                       </div>
                       <div style={{ paddingBottom: '100px'}}>
-                        <div style = {{ margin: '10px', color: 'black', fontSize: '11px' }}>Signature</div>
+                        <div style = {{ margin: '10px', color: '#333333', fontSize: '11px' }}>Signature</div>
                       </div>
                   </div>
             </div>
