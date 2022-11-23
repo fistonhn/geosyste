@@ -6,7 +6,6 @@ import Post from './component/pages/Post';
 import Login from './component/pages/Login';
 import Reports from './component/pages/Reports';
 
-
 class App extends React.Component {
   render() {
     return (

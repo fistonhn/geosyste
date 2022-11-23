@@ -1,0 +1,154 @@
+* {
+    font-family: 'Open Sans';
+}
+input{
+    border: 1px solid #CECECE;
+    box-sizing: border-box;
+    height: 35px;
+    left: 150px;
+    top: 220.95px;
+    float: right;
+}
+label {
+    width: 63px;
+    height: 89.76px;
+    left: 87px;
+    top: 213.55px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 48px;
+    color: #333333;
+    white-space: nowrap;
+}
+textarea{
+    border: 1px solid #CECECE;
+    float: right;
+}
+
+::placeholder {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    color: #666666;
+    padding-left: 5px;
+}
+.qSystem input {
+    border: 1px solid #CECECE;
+    box-sizing: border-box;
+    width: 90%;
+    top: 220.95px;
+    display: block;
+}
+.qSystem label {
+    width: 63px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 48px;
+    color: #333333;
+    display: block;
+    margin-left: 10px;
+    margin-bottom: -40px;
+}
+ h2{
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 20px;
+    color: #423E4F !important;
+}
+h4{
+    color: #423E4F !important;
+}
+
+.joint input{
+    border: 1px solid #CECECE;
+    box-sizing: border-box;
+    width: 90%;
+    top: 220.95px;
+    display: block;
+}
+.joint label {
+    width: 63px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 48px;
+    color: #333333;
+    display: block;
+    margin-left: 20px;
+    margin-bottom: -40px;
+}
+
+.rithology textarea{
+    border: 1px solid #CECECE;
+    box-sizing: border-box;
+    top: 220.95px;
+    margin-left: -30px;
+
+}
+.rithology {
+    padding-top: 30px;
+}
+
+.sec {
+    border-bottom: 2px solid black;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    margin-top: 50px;
+}
+.imagePlace {
+    border-bottom: 2px solid black;
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+}
+
+.imagePlace input{
+   margin-bottom: 5px;
+}
+
+.basicData input {
+    border: 1px solid #CECECE;
+    box-sizing: border-box;
+    width: 50%;
+    top: 220.95px;
+    display: block;
+    float: right;
+    margin-right: 58px;
+}
+.basicData1 {
+    margin-top: 45px;
+}
+.basicData1 input {
+    border: 1px solid #CECECE;
+    box-sizing: border-box;
+    width: 56%;
+    top: 220.95px;
+    display: block;
+    float: right;
+    margin-right: 60px;
+    white-space: nowrap;
+}
+.basicData2 input {
+    border: 1px solid #CECECE;
+    box-sizing: border-box;
+    width: 61%;
+    top: 220.95px;
+    display: block;
+    float: right;
+    margin-right: 60px;
+    white-space: nowrap;
+}
+.advanceLocation {
+    display: flex;
+    margin-bottom: -40px;
+}
+.advanceLocationFrom {
+    width: 20%;
+    margin-left: 100px;
+}
+.advanceLocationTo {
+    width: 20%;
+    margin-left: -50px;
+}
