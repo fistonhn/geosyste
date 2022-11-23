@@ -14,7 +14,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 
 const Post = () => {
-    const [qData, setQdata] = useState({ rqd: 'undefined', jn: 'undefined', jr: 'undefined', ja: 'undefined', jw: 'undefined', srf: 'undefined' })
+    const [qData, setQdata] = useState({ rqd: undefined, jn: undefined, jr: undefined, ja: undefined, jw: undefined, srf: undefined })
     const [data, setData] = useState(null)
 
     const [resError, setResError] = useState(null)
@@ -26,8 +26,8 @@ const Post = () => {
     const [imagePhoto, setImagePhoto] = useState(null)
 
 
-    const [qIndex, setQindex] = useState('undefined')
-    const [massQuality, setMassQuality] = useState('undefined')
+    const [qIndex, setQindex] = useState(undefined)
+    const [massQuality, setMassQuality] = useState(undefined)
 
     const [supporting, setSupporting] = React.useState(' ');
 
@@ -375,7 +375,7 @@ const Post = () => {
 
                         <div style = {{display: 'flex', marginTop: '20px', marginBottom: '3%', marginLeft: '15px' }}>
                             <Button onClick={handleCalculate} style={{ backgroundColor: 'black', marginRight: '20px' }} size="small" variant="contained">CALCULATE Q</Button>
-                            {qIndex !== null && 
+                            {qIndex !== undefined && 
                             <div style = {{ backgroundColor: '#F1F1F1' }}>
                                 <span style={{fontWeight: 'bold', padding: '20px'}}>Q INDEX= {qIndex}</span> | 
                                 <span style={{ padding: '20px'}}>{massQuality}</span>
