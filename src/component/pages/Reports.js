@@ -203,13 +203,15 @@ export default function CustomPaginationActionsTable() {
 
   }
 
+  console.log('pppp', post);
+
   return (
     <>
       <div style = {{backgroundColor: '#F2F2F2', display: 'block', color: '#333333', padding: '2%', cursor: 'context-menu' }}>
         <Link href="/"><img alt="logo" src={logo}/></Link>
         <div style={{ fontSize: '13px', fontWeight: 'bold', float: 'right', display: 'flex' }}>
-        <Link href="/post"><div>POST</div></Link>
-        <Link onClick={handleLogout} style={{marginRight: '30px', marginLeft: '20px'}}>LOGOUT</Link>
+        <Link href="/post"><div>Data Entry</div></Link>
+        <Link onClick={handleLogout} style={{marginRight: '30px', marginLeft: '20px'}}>Logout</Link>
         </div>
       </div>
       <div style={{ color: 'white', margin: '3% 10%' }}> 
@@ -274,7 +276,7 @@ export default function CustomPaginationActionsTable() {
           </Table>
           </TableContainer>
       </div>
-      <div style={{ display: 'nonec', padding: '0% 25%'}}>
+      <div style={{ display: 'none', padding: '0% 25%'}}>
         <div id="my-page" style={{ fontSize: '12px', minWidth: '705px', maxWidth: '705px', border: '1px solid #CECECE', overflow: 'hidden' }}>
             <div style={{display: 'grid', gridTemplateColumns: 'auto auto auto auto', minWidth: '710px', maxWidth: '710px'}}>
               <div style={{ borderRight: '1px solid #CECECE', padding: '10px', fontSize: '30px'}}>
@@ -483,16 +485,12 @@ export default function CustomPaginationActionsTable() {
                     </div>
                 </div>
             </div>
-            <div style={{ borderTop: '1px solid #CECECE', borderBottom: '1px solid #CECECE', display: 'flex', minWidth: '710px', maxWidth: '710px' }}>
-                  <div style={{margin: '8px', paddingRight: '5px', width: '33%'}}>
-                      <img width="190" height="120" alt="sketch" src={post?.photos} style={{ padding: '1%'}} />
-                  </div>
-                  <div style={{margin: '8px', paddingRight: '5px', width: '33%'}}>
-                      <img width="190" height="120" alt="sketch" src={post?.photos} style={{ padding: '1%'}} />
-                  </div>
-                  <div style={{margin: '8px', paddingRight: '5px', width: '33%'}}>
-                      <img width="190" height="120" alt="sketch" src={post?.photos} style={{ padding: '1%'}} />
-                  </div>
+            <div style={{display: 'grid', borderTop: '1px solid #CECECE', gridTemplateColumns: 'auto auto auto', minWidth: '710px', maxWidth: '710px'}}>
+                {post?.photos?.map((allPhotos)=>(
+                    <div style={{margin: '8px', paddingRight: '5px', width: '33%'}}>
+                      <img width="190" height="120" alt="sketch" src={allPhotos} style={{ padding: '1%'}} />
+                    </div>
+                ))}
             </div>
             <div style={{ display: 'flex', marginTop: '10px', minWidth: '710px', maxWidth: '710px' }}>
                   <div style={{margin: '8px', paddingRight: '5px', width: '33%', border: '1px solid #CECECE'}}>

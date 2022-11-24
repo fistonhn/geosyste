@@ -242,7 +242,6 @@ const Post = () => {
         allData.append('otherRockType', data.otherRockType);
         allData.append('additionalDescription', data.additionalDescription);
         allData.append('notes', data.notes);
-        // allData.append('photos', imagePhoto);
         allData.append('qIndex', qIndex);
         allData.append('massQuality', massQuality);
 
@@ -255,10 +254,7 @@ const Post = () => {
         allData.append('srf', qData.srf);
         allData.append('supporting', supporting);
 
-        // const createPost = await axios.post('https://geosystem.herokuapp.com/api/createPost', allData, config)
-        const createPost = await axios.post('http://localhost:7000/api/createPost', allData, config)
-
-        console.log('createPost', createPost);
+        const createPost = await axios.post('https://geosystem.herokuapp.com/api/createPost', allData, config)
 
         if(createPost.data.status === 201) {
             setResSuccess(createPost.data.message)
@@ -292,8 +288,8 @@ const Post = () => {
             <Link href="/"><img alt="logo" src={logo}/></Link>
 
             <div style={{ fontSize: '15px', fontWeight: 'bold', float: 'right', display: 'flex' }}>
-                <Link href="/reports"> <div>REPORTS</div> </Link>
-                <Link onClick={handleLogout} style={{marginRight: '30px', marginLeft: '20px'}}>LOGOUT</Link>
+                <Link href="/reports"> <div>Reports</div> </Link>
+                <Link onClick={handleLogout} style={{marginRight: '30px', marginLeft: '20px'}}>Logout</Link>
             </div>
         </div>
         <div style={{ color: 'white', margin: '5%' }}> 
@@ -405,7 +401,7 @@ const Post = () => {
             <div className='imagePlace sec'>
 
                 <h2 >FACEMAPPING SKETCH</h2>
-                <Button style = {{  backgroundColor: 'white', border: '1px dotted black', padding: '6%', width: '100%', fontSize: '12px' }}>
+                <Button style = {{  backgroundColor: 'white', border: '1px dotted black', padding: '6%', width: '100%', fontSize: '12px', color: 'black' }}>
 
                 <div style={{marginRight: '5px', marginBottom: '20px'}}>Upload Face Mapping Sketch</div>
                 <input
