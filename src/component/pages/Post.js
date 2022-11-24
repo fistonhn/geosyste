@@ -120,8 +120,6 @@ const Post = () => {
     const handleSubmit = async (event) => {
         event.preventDefault()
 
-        console.log('imagePhoto', imagePhoto[0])
-
         if(data===null) return setResError('Please fill at least one field')
         if(imageSketch===null) return setResError('Please upload face mapping sketch image')
         if(imagePhoto===null) return setResError('Please upload a photo')
