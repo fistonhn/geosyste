@@ -17,12 +17,19 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import TableHead from '@mui/material/TableHead';
-import logo from '../../assets/logo.png';
-import pdfLogo from '../../assets/pdfLogo.JPG';
-
+import Backdrop from '@mui/material/Backdrop'
+import CircularProgress from '@mui/material/CircularProgress'
 import Link from '@mui/material/Link';
 import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas';
+import MuiAlert from '@mui/material/Alert';
+
+import logo from '../../assets/logo.png';
+import pdfLogo from '../../assets/pdfLogo.JPG';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 
 function TablePaginationActions (props) {
@@ -95,14 +102,25 @@ export default function CustomPaginationActionsTable() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [posts, setPosts] = useState(null);
   const [post, setPost] = useState(null);
+  const [isLoading, setIsLoading] = useState(false)
 
-  console.log('post', post)
+  const [resError, setResError] = useState(null)
+  const [resSuccess, setResSuccess] = useState(null)
+
 
   useEffect(() => {
       axios.get('https://geosystem.herokuapp.com/api/getAllPosts', config).then((res)=>{
         setPosts(res.data.data);
       })
-  }, []);
+  }, [setResSuccess]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+        setResError(null)
+        setResSuccess(null)
+    }, 4000)
+    return () => clearTimeout(timer)
+  })
 
   const handleLogout = (event) => {
     event.preventDefault()
@@ -123,9 +141,6 @@ export default function CustomPaginationActionsTable() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
-  console.log('poooossstttt', post);
-
 
   const handleDownload = async(id) => {
 
@@ -149,7 +164,7 @@ export default function CustomPaginationActionsTable() {
             doc.save('FACE-MAPPING-REPORT.pdf');
         },
         margin: [5, 5, 5, 5],
-        autoPaging: 'text',
+        // autoPaging: 'text',
         x: 0,
         y: 0,
         width: 190, 
@@ -157,6 +172,35 @@ export default function CustomPaginationActionsTable() {
     });
 
     })
+  }
+
+  const handleDelete = async(id) => {
+    setIsLoading(true)
+
+    try {
+
+    const res = await axios.delete(`https://geosystem.herokuapp.com/api/deletePost/${id}`, config)
+
+    if(res.data.status === 200) {
+      const getPost = await axios.get('https://geosystem.herokuapp.com/api/getAllPosts', config)
+      setPosts(getPost.data.data);
+
+      setResSuccess(res.data.message)
+
+      setIsLoading(false)
+    } else {
+        setResError('Error happen')
+        setIsLoading(false)
+    }
+
+    } catch (error) {
+      if (error.response) {
+          setResError(error.response.data.error)
+          setIsLoading(false)
+      }
+  }
+    setIsLoading(false)
+
   }
 
   return (
@@ -170,6 +214,8 @@ export default function CustomPaginationActionsTable() {
       </div>
       <div style={{ color: 'white', margin: '3% 10%' }}> 
           <TableContainer component={Paper}>
+          {resError !== null &&<Alert style={{ margin: '1% 20%' }} severity="error">{resError}</Alert>}
+          {resSuccess !== null &&<Alert style={{ margin: '1% 20%' }} severity="success">{resSuccess}</Alert>}
           <Table sx={{ minWidth: 500 }} aria-label="custom pagination table">
                   <TableHead>
                       <TableRow>
@@ -177,9 +223,11 @@ export default function CustomPaginationActionsTable() {
                           <TableCell >CHAINAGE</TableCell>
                           <TableCell >DATE + TIME</TableCell>
                           <TableCell >{''}</TableCell>
+                          <TableCell >{''}</TableCell>
                       </TableRow>
                   </TableHead>
               <TableBody>
+
               {(rowsPerPage > 0
                   ? posts?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   : posts
@@ -192,6 +240,8 @@ export default function CustomPaginationActionsTable() {
                       <TableCell >{post.advanceLocationFrom !== 'undefined' ? post?.advanceLocationFrom : ''} To {post?.advanceLocationTo !== 'undefined' ? post?.advanceLocationTo : ''}</TableCell>
                       <TableCell >{post.date !== 'undefined' ? post?.date : ''}</TableCell>
                       <TableCell onClick={()=>handleDownload(post?.id)} value={post?.id} style={{cursor: 'pointer'}} >{'download'}</TableCell>
+                      <TableCell onClick={()=>handleDelete(post?.id)} value={post?.id} style={{cursor: 'pointer', color: 'red'}} >{'Delete'}</TableCell>
+
                   </TableRow>
               ))}
 
@@ -433,7 +483,7 @@ export default function CustomPaginationActionsTable() {
                     </div>
                 </div>
             </div>
-            <div style={{ borderTop: '1px solid #CECECE', borderBottom: '1px solid #CECECE', display: 'flex', marginTop: '150px', minWidth: '710px', maxWidth: '710px' }}>
+            <div style={{ borderTop: '1px solid #CECECE', borderBottom: '1px solid #CECECE', display: 'flex', minWidth: '710px', maxWidth: '710px' }}>
                   <div style={{margin: '8px', paddingRight: '5px', width: '33%'}}>
                       <img width="190" height="120" alt="sketch" src={post?.photos} style={{ padding: '1%'}} />
                   </div>
@@ -481,6 +531,12 @@ export default function CustomPaginationActionsTable() {
             </div>
         </div>
       </div>
+      <Backdrop
+          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open={isLoading}
+        >
+          <CircularProgress color="inherit" />
+      </Backdrop>
     </>
   );
 }
