@@ -14,7 +14,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 
 const Post = () => {
-    const [qData, setQdata] = useState({ rqd: 'undefined', jn: 'undefined', jr: 'undefined', ja: 'undefined', jw: 'undefined', srf: 'undefined' })
+    const [qData, setQdata] = useState({ rqd: undefined, jn: undefined, jr: undefined, ja: undefined, jw: undefined, srf: undefined })
     const [data, setData] = useState(null)
 
     const [resError, setResError] = useState(null)
@@ -23,11 +23,11 @@ const Post = () => {
     const [isLoading, setIsLoading] = useState(false)
 
     const [imageSketch, setImageSketch] = useState(null)
-    const [imagePhoto, setImagePhoto] = useState(null)
+    const [imagePhoto, setImagePhoto] = useState([])
 
 
-    const [qIndex, setQindex] = useState('undefined')
-    const [massQuality, setMassQuality] = useState('undefined')
+    const [qIndex, setQindex] = useState(undefined)
+    const [massQuality, setMassQuality] = useState(undefined)
 
     const [supporting, setSupporting] = React.useState(' ');
 
@@ -115,7 +115,7 @@ const Post = () => {
 
     const handleImageSketch = (e) => { setImageSketch(e.target.files[0]) }
 
-    const handleImagePhoto = (e) => { setImagePhoto(e.target.files[0]) }
+    const handleImagePhoto = (e) => { setImagePhoto([...imagePhoto, e.target.files[0]]) }
 
     const handleSubmit = async (event) => {
         event.preventDefault()
@@ -127,8 +127,11 @@ const Post = () => {
         setIsLoading(true)
 
     try {
-
         let allData = new FormData();
+
+        for(let i = 0; i < imagePhoto.length; i++ ){
+            allData.append("photos", imagePhoto[i]);
+        }
 
         allData.append('tunnel', data.tunnel);
         allData.append('date', data.date);
@@ -239,7 +242,6 @@ const Post = () => {
         allData.append('otherRockType', data.otherRockType);
         allData.append('additionalDescription', data.additionalDescription);
         allData.append('notes', data.notes);
-        allData.append('photos', imagePhoto);
         allData.append('qIndex', qIndex);
         allData.append('massQuality', massQuality);
 
@@ -253,7 +255,6 @@ const Post = () => {
         allData.append('supporting', supporting);
 
         const createPost = await axios.post('https://geosystem.herokuapp.com/api/createPost', allData, config)
-        console.log('createPost', createPost);
 
         if(createPost.data.status === 201) {
             setResSuccess(createPost.data.message)
@@ -287,8 +288,8 @@ const Post = () => {
             <Link href="/"><img alt="logo" src={logo}/></Link>
 
             <div style={{ fontSize: '15px', fontWeight: 'bold', float: 'right', display: 'flex' }}>
-                <Link href="/reports"> <div>REPORTS</div> </Link>
-                <Link onClick={handleLogout} style={{marginRight: '30px', marginLeft: '20px'}}>LOGOUT</Link>
+                <Link href="/reports"> <div>Reports</div> </Link>
+                <Link onClick={handleLogout} style={{marginRight: '30px', marginLeft: '20px'}}>Logout</Link>
             </div>
         </div>
         <div style={{ color: 'white', margin: '5%' }}> 
@@ -298,7 +299,7 @@ const Post = () => {
                     <label for="tunnel">Tunnel</label>
                     <input type="text"  placeholder='Type' onChange={handleChange} name="tunnel" value={data?.tunnel}/> <br/>
 
-                    <label for="date">date</label>
+                    <label for="date">Date</label>
                     <input type="text"  placeholder='Type' onChange={handleChange} name="date" value={data?.date}/> <br/>
 
                     <label for="excavationSection">Excavation Section</label>
@@ -375,8 +376,8 @@ const Post = () => {
 
                         <div style = {{display: 'flex', marginTop: '20px', marginBottom: '3%', marginLeft: '15px' }}>
                             <Button onClick={handleCalculate} style={{ backgroundColor: 'black', marginRight: '20px' }} size="small" variant="contained">CALCULATE Q</Button>
-                            {qIndex !== null && 
-                            <div style = {{ backgroundColor: '#F1F1F1' }}>
+                            {qIndex !== undefined && 
+                            <div style = {{ backgroundColor: '#F1F1F1', color: 'black' }}>
                                 <span style={{fontWeight: 'bold', padding: '20px'}}>Q INDEX= {qIndex}</span> | 
                                 <span style={{ padding: '20px'}}>{massQuality}</span>
                             </div>
@@ -400,7 +401,7 @@ const Post = () => {
             <div className='imagePlace sec'>
 
                 <h2 >FACEMAPPING SKETCH</h2>
-                <Button style = {{  backgroundColor: 'white', border: '1px dotted black', padding: '6%', width: '100%', fontSize: '12px' }}>
+                <Button style = {{  backgroundColor: 'white', border: '1px dotted black', padding: '6%', width: '100%', fontSize: '12px', color: 'black' }}>
 
                 <div style={{marginRight: '5px', marginBottom: '20px'}}>Upload Face Mapping Sketch</div>
                 <input
@@ -1209,15 +1210,24 @@ const Post = () => {
 
             <div className='imagePlace sec'>
                 <h2>PHOTOS</h2>
-                <Button style = {{  marginBottom: '3%', backgroundColor: 'white', border: '1px dotted black', padding: '6%', width: '100%', fontSize: '12px', display: 'flex' }}>
+                <Button style = {{  marginBottom: '3%', backgroundColor: 'white', border: '1px dotted black', padding: '6%', width: '100%', fontSize: '12px', display: 'flex', color: 'black' }}>
                 <div style={{marginRight: '5px', marginBottom: '20px'}}>Upload photos</div>
-                <input
-                    type="file"
-                    name="photos"
-                    onChange={handleImagePhoto}
-                />
+
+                    <input
+                        type="file"
+                        name="photos"
+                        multiple="multiple"
+                        onChange={handleImagePhoto}
+                        // style={{display:'none'}}
+                    />
+                    <di style={{textAlign: 'left', marginLeft: '10px'}}>
+                        {imagePhoto.map((photo)=>(
+                            <li>{photo.name}</li>
+                        ))}
+                    </di>
                 </Button>
             </div>
+
             {resError !== null &&<Alert style={{ marginTop: '10px', width: '50%', marginLeft: '22%'}} severity="error">{resError}</Alert>}
             {resSuccess !== null &&<Alert style={{ marginTop: '10px', width: '50%', marginLeft: '22%'}} severity="success">{resSuccess}</Alert>}
 
